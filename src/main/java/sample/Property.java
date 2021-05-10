@@ -17,7 +17,7 @@ import java.util.Properties;
 public class Property {
 
     private static Properties properties;
-     private static final String resourceFilePath = "src/main/resources/config.properties";
+     private static final String resourceFilePath = "src/main/resources/dev1.properties";
   //  private static final String resourceFilePath = "config.properties";
 
     static {

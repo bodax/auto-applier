@@ -6,7 +6,7 @@ import javafx.scene.paint.Color;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
-import sample.Controller;
+import sample.MainController;
 import sample.Property;
 
 import java.io.File;
@@ -20,18 +20,18 @@ import java.io.IOException;
  * @since 1.0
  */
 public class Thread2 implements Runnable {
-    private Controller controller;
+    private MainController controller;
     private WebDriver driver2;
     private Property property;
     private FinanceUA financeUA;
     private boolean isActive = false;
     private ChromeOptions options;
 
-    public Controller getController() {
+    public MainController getController() {
         return controller;
     }
 
-    public Thread2(Controller controller) {
+    public Thread2(MainController controller) {
         this.controller = controller;
         property = new Property();
         System.setProperty("webdriver.chrome.driver", property.getPathToDriver());

@@ -10,7 +10,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.Select;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sample.Controller;
+import sample.MainController;
 
 /**
  * Class
@@ -24,13 +24,13 @@ public class FinanceUA {
     private Logger log = LoggerFactory.getLogger(FinanceUA.class);
 
     private WebDriver driver;
-    private Controller controller;
+    private MainController controller;
     final String website = "https://finance.i.ua/market/kiev/?";
    /* FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/sample
    .fxml"));
    Controller controller = (Controller) fxmlLoader.getController();*/
 
-    public FinanceUA(WebDriver driver, Controller controller) {
+    public FinanceUA(WebDriver driver, MainController controller) {
         this.driver = driver;
         this.controller = controller;
     }

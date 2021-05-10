@@ -1,5 +1,6 @@
 package sample;
 
+import com.bodax.home.newimpl.AccountFrameFactory;
 import com.bodax.home.threads.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,7 +11,7 @@ import javafx.scene.control.TextField;
 
 import java.io.IOException;
 
-public class Controller {
+public class MainController {
 
     @FXML
     Label labelLogin1;
@@ -96,7 +97,7 @@ public class Controller {
     Property property = new Property();
 
     @FXML
-    private void initialize() throws IOException {
+    private void initialize() {
         comboBoxSaleOrBuy1.setItems(getSaleOrBuyList());
         comboBoxSaleOrBuy1.setValue("продать");
 
@@ -134,7 +135,6 @@ public class Controller {
         comboBoxCurrency5.setValue("USD");
         setLabelLogin5(labelLogin5);
     }
-
 
     private ObservableList<String> getSaleOrBuyList() {
         return FXCollections.observableArrayList("купить", "продать");
@@ -188,9 +188,13 @@ public class Controller {
     private Thread1 tr1;
 
     public void login1StartBtnClick() throws IOException {
+        AccountFrameFactory factory = new AccountFrameFactory(this);
+        factory
+
         tr1 = new Thread1(this);
         Thread thread1 = new Thread(tr1);
         thread1.start();
+
     }
 
     public void login1StopBtnClick() throws IOException, InterruptedException {

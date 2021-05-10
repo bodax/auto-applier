@@ -11,7 +11,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sample.Controller;
+import sample.MainController;
 import sample.Property;
 
 /**
@@ -22,7 +22,7 @@ import sample.Property;
  * @since 1.0
  */
 public class Thread1 implements Runnable {
-    private Controller controller;
+    private MainController controller;
     private WebDriver driver1;
     private Property property;
     private FinanceUA financeUA;
@@ -31,11 +31,11 @@ public class Thread1 implements Runnable {
 
     private static Logger log = LoggerFactory.getLogger(Thread1.class);
 
-    public Controller getController() {
+    public MainController getController() {
         return controller;
     }
 
-    public Thread1(Controller controller) throws IOException {
+    public Thread1(MainController controller) throws IOException {
         log.info("Start Thread 1, init constructor");
         this.controller = controller;
         property = new Property();
