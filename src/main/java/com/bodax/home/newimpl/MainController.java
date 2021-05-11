@@ -1,7 +1,5 @@
-package sample;
+package com.bodax.home.newimpl;
 
-import com.bodax.home.newimpl.AccountFrameFactory;
-import com.bodax.home.threads.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -185,30 +183,27 @@ public class MainController {
         return Float.parseFloat(rateField1.getText());
     }
 
-    private Thread1 tr1;
+    AccountFrameFactory factory = new AccountFrameFactory(this);
+    private AccountThread tr1;
 
-    public void login1StartBtnClick() throws IOException {
-        AccountFrameFactory factory = new AccountFrameFactory(this);
-        factory
-
-        tr1 = new Thread1(this);
-        Thread thread1 = new Thread(tr1);
-        thread1.start();
-
+    public void login1StartBtnClick() {
+        tr1 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FIRST));
+        Thread thread = new Thread(tr1, FrameNumber.FIRST.name());
+        thread.start();
     }
 
-    public void login1StopBtnClick() throws IOException, InterruptedException {
+    public void login1StopBtnClick() throws InterruptedException {
         tr1.deleteByUser();
         tr1.closeDriver();
     }
 
-    //Thread 2
-    private Thread2 tr2;
+    // Thread 2
+    private AccountThread tr2;
 
     public void login2StartBtnClick() {
-        tr2 = new Thread2(this);
-        Thread thread2 = new Thread(tr2);
-        thread2.start();
+        tr2 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.SECOND));
+        Thread thread = new Thread(tr2, FrameNumber.SECOND.name());
+        thread.start();
     }
 
     public void login2StopBtnClick() throws InterruptedException {
@@ -284,12 +279,12 @@ public class MainController {
     }
 
 
-    private Thread3 tr3;
+    private AccountThread tr3;
 
-    public void login3StartBtnClick() throws IOException {
-        tr3 = new Thread3(this);
-        Thread thread3 = new Thread(tr3);
-        thread3.start();
+    public void login3StartBtnClick() {
+        tr3 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.THIRD));
+        Thread thread = new Thread(tr3, FrameNumber.THIRD.name());
+        thread.start();
     }
 
     public void login3StopBtnClick() throws InterruptedException {
@@ -332,12 +327,12 @@ public class MainController {
     }
 
 
-    private Thread4 tr4;
+    private AccountThread tr4;
 
     public void login4StartBtnClick() throws IOException {
-        tr4 = new Thread4(this);
-        Thread thread4 = new Thread(tr4);
-        thread4.start();
+        tr4 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FOURTH));
+        Thread thread = new Thread(tr4, FrameNumber.FOURTH.name());
+        thread.start();
     }
 
     public void login4StopBtnClick() throws InterruptedException {
@@ -380,13 +375,12 @@ public class MainController {
         return Float.parseFloat(rateField5.getText());
     }
 
-
-    private Thread5 tr5;
+    private AccountThread tr5;
 
     public void login5StartBtnClick() throws IOException {
-        tr5 = new Thread5(this);
-        Thread thread5 = new Thread(tr5);
-        thread5.start();
+        tr5 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FIFTH));
+        Thread thread = new Thread(tr5, FrameNumber.FIFTH.name());
+        thread.start();
     }
 
     public void login5StopBtnClick() throws InterruptedException {

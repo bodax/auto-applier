@@ -7,7 +7,6 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sample.MainController;
 
 import java.io.File;
 
@@ -26,13 +25,16 @@ public class AccountThread implements Runnable {
     private ChromeOptions options;
     private static Logger log = LoggerFactory.getLogger(AccountThread.class);
     private AccountFrame accountFrame;
+    private final Property properties;
 
     public AccountThread(AccountFrame accountFrame) {
         this.accountFrame = accountFrame;
-        System.setProperty("webdriver.chrome.driver", "/chromedriver.exe");
+        this.properties = new Property();
+        System.setProperty("webdriver.chrome.driver", properties.getPathToDriver());
+       // System.setProperty("webdriver.chrome.driver", "/chromedriver.exe");
         options = new ChromeOptions();
-        // options.setBinary(new File("D:\\Java\\com\\bodax\\home\\FinanceUa\\resources\\chrome-win\\chrome-win\\chrome.exe"));
-        options.setBinary(new File("/chrome-win/chrome.exe"));
+         options.setBinary(new File("D:\\Java\\com\\bodax\\home\\FinanceUa_Addons\\addons\\chrome-win\\chrome.exe"));
+     //  options.setBinary(new File("/chrome-win/chrome.exe"));
         options.addArguments("--window-size=1366,768", "--ignore-certificate-errors");
         // options.addExtensions(new File("adbblock.crx")); "--headless", "--disable-gpu",
     }
@@ -87,7 +89,7 @@ public class AccountThread implements Runnable {
         }
     }
 
-   /* public void closeDriver() {
+   public void closeDriver() {
         getDriver().quit();
     }
 
@@ -95,20 +97,16 @@ public class AccountThread implements Runnable {
         return driver;
     }
 
-    public MainController getController() {
-        return controller;
-    }
-
     public void deleteByUser() throws InterruptedException {
         applier.loadPage();
         Thread.sleep(1000);
         if (isActive) {
-            applier.deleteItemTest(String.valueOf(controller.getRate1()));
-            Platform.runLater(() -> controller.getStatusLabel1().setTextFill(Color.web("#ff0000")));
-            Platform.runLater(() -> controller.getStatusLabel1().setText("Удалено"));
+            applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
+            Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff0000")));
+            Platform.runLater(() -> accountFrame.getStatusLabel().setText("Удалено"));
             Thread.sleep(500);
         }
-    }*/
+    }
 }
 
 

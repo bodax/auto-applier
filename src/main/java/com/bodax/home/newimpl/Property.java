@@ -1,4 +1,4 @@
-package sample;
+package com.bodax.home.newimpl;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;

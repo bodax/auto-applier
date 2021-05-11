@@ -1,4 +1,4 @@
-package sample;
+package com.bodax.home.newimpl;
 
 import com.aquafx_project.AquaFx;
 import javafx.application.Application;

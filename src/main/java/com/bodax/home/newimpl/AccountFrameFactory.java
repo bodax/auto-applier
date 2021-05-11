@@ -1,7 +1,6 @@
 package com.bodax.home.newimpl;
 
 import com.bodax.home.newimpl.accountframes.*;
-import sample.MainController;
 
 public class AccountFrameFactory {
 

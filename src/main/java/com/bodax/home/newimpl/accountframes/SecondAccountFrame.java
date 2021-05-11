@@ -2,8 +2,8 @@ package com.bodax.home.newimpl.accountframes;
 
 import com.bodax.home.newimpl.AccountFrame;
 import javafx.scene.control.Label;
-import sample.MainController;
-import sample.Property;
+import com.bodax.home.newimpl.MainController;
+import com.bodax.home.newimpl.Property;
 
 public class SecondAccountFrame implements AccountFrame {
     private final MainController controller;
