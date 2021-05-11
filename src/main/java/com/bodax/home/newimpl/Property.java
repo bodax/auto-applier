@@ -17,8 +17,8 @@ import java.util.Properties;
 public class Property {
 
     private static Properties properties;
-     private static final String resourceFilePath = "src/main/resources/dev1.properties";
-  //  private static final String resourceFilePath = "config.properties";
+    // private static final String resourceFilePath = "src/main/resources/dev1.properties";
+    private static final String resourceFilePath = "config.properties";
 
     static {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(
@@ -31,7 +31,11 @@ public class Property {
     }
 
     public String getPathToDriver() {
-        return properties.getProperty("directory");
+        return properties.getProperty("driver");
+    }
+
+    public String getChromePath() {
+        return properties.getProperty("chrome");
     }
 
     public String getLogin1() {
@@ -42,7 +46,9 @@ public class Property {
         return properties.getProperty("pass1");
     }
 
-    public String getLogin2() { return properties.getProperty("login2"); }
+    public String getLogin2() {
+        return properties.getProperty("login2");
+    }
 
     public String getPass2() {
         return properties.getProperty("pass2");
@@ -92,4 +98,6 @@ public class Property {
     public String getComment5() {
         return properties.getProperty("comment5");
     }
+
+
 }

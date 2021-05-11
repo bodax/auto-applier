@@ -7,9 +7,13 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
-import java.io.IOException;
-
 public class MainController {
+
+    private static final String SALE = "продать";
+    private static final String BUY = "купить";
+    private static final String USD = "USD";
+    private static final String EUR = "EUR";
+    private static final String RUB = "RUB";
 
     @FXML
     Label labelLogin1;
@@ -97,10 +101,10 @@ public class MainController {
     @FXML
     private void initialize() {
         comboBoxSaleOrBuy1.setItems(getSaleOrBuyList());
-        comboBoxSaleOrBuy1.setValue("продать");
+        comboBoxSaleOrBuy1.setValue(SALE);
 
         comboBoxCurrency1.setItems(getCurrencyList());
-        comboBoxCurrency1.setValue("USD");
+        comboBoxCurrency1.setValue(USD);
         setLabelLogin1(labelLogin1);
 
         comboBoxComment1.setItems(getComment());
@@ -110,36 +114,36 @@ public class MainController {
         comboBoxComment5.setItems(getComment());
 
         comboBoxSaleOrBuy2.setItems(getSaleOrBuyList());
-        comboBoxSaleOrBuy2.setValue("продать");
+        comboBoxSaleOrBuy2.setValue(SALE);
         comboBoxCurrency2.setItems(getCurrencyList());
-        comboBoxCurrency2.setValue("USD");
+        comboBoxCurrency2.setValue(USD);
         setLabelLogin2(labelLogin2);
 
         comboBoxSaleOrBuy3.setItems(getSaleOrBuyList());
-        comboBoxSaleOrBuy3.setValue("продать");
+        comboBoxSaleOrBuy3.setValue(SALE);
         comboBoxCurrency3.setItems(getCurrencyList());
-        comboBoxCurrency3.setValue("USD");
+        comboBoxCurrency3.setValue(USD);
         setLabelLogin3(labelLogin3);
 
         comboBoxSaleOrBuy4.setItems(getSaleOrBuyList());
-        comboBoxSaleOrBuy4.setValue("продать");
+        comboBoxSaleOrBuy4.setValue(SALE);
         comboBoxCurrency4.setItems(getCurrencyList());
-        comboBoxCurrency4.setValue("USD");
+        comboBoxCurrency4.setValue(USD);
         setLabelLogin4(labelLogin4);
 
         comboBoxSaleOrBuy5.setItems(getSaleOrBuyList());
-        comboBoxSaleOrBuy5.setValue("продать");
+        comboBoxSaleOrBuy5.setValue(SALE);
         comboBoxCurrency5.setItems(getCurrencyList());
-        comboBoxCurrency5.setValue("USD");
+        comboBoxCurrency5.setValue(USD);
         setLabelLogin5(labelLogin5);
     }
 
     private ObservableList<String> getSaleOrBuyList() {
-        return FXCollections.observableArrayList("купить", "продать");
+        return FXCollections.observableArrayList(BUY, SALE);
     }
 
     private ObservableList<String> getCurrencyList() {
-        return FXCollections.observableArrayList("USD", "EUR", "RUB");
+        return FXCollections.observableArrayList(USD, EUR, RUB);
     }
 
     private ObservableList<String> getComment() {
@@ -329,7 +333,7 @@ public class MainController {
 
     private AccountThread tr4;
 
-    public void login4StartBtnClick() throws IOException {
+    public void login4StartBtnClick() {
         tr4 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FOURTH));
         Thread thread = new Thread(tr4, FrameNumber.FOURTH.name());
         thread.start();
@@ -356,7 +360,6 @@ public class MainController {
 
     public String getCurrency5() {
         return comboBoxCurrency5.getSelectionModel().getSelectedItem();
-
     }
 
     public String getValue5() {
@@ -377,7 +380,7 @@ public class MainController {
 
     private AccountThread tr5;
 
-    public void login5StartBtnClick() throws IOException {
+    public void login5StartBtnClick() {
         tr5 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FIFTH));
         Thread thread = new Thread(tr5, FrameNumber.FIFTH.name());
         thread.start();

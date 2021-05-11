@@ -31,12 +31,9 @@ public class AccountThread implements Runnable {
         this.accountFrame = accountFrame;
         this.properties = new Property();
         System.setProperty("webdriver.chrome.driver", properties.getPathToDriver());
-       // System.setProperty("webdriver.chrome.driver", "/chromedriver.exe");
         options = new ChromeOptions();
-         options.setBinary(new File("D:\\Java\\com\\bodax\\home\\FinanceUa_Addons\\addons\\chrome-win\\chrome.exe"));
-     //  options.setBinary(new File("/chrome-win/chrome.exe"));
-        options.addArguments("--window-size=1366,768", "--ignore-certificate-errors");
-        // options.addExtensions(new File("adbblock.crx")); "--headless", "--disable-gpu",
+        options.setBinary(new File(properties.getChromePath()));
+        options.addArguments("--window-size=1366,768", "--headless", "--disable-gpu", "--ignore-certificate-errors");
     }
 
     @Override
@@ -69,10 +66,10 @@ public class AccountThread implements Runnable {
 
                     Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#00ff14")));
                     Platform.runLater(() -> accountFrame.getStatusLabel().setText("Активно"));
-                    Thread.sleep(15000);
+                    Thread.sleep(50000);
                     applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
-                    Thread.sleep(5000);
                     isActive = false;
+                    Thread.sleep(2000);
                     Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff8900")));
                     Platform.runLater(() -> accountFrame.getStatusLabel().setText("Удалено"));
                     Thread.sleep(2000);
@@ -89,12 +86,8 @@ public class AccountThread implements Runnable {
         }
     }
 
-   public void closeDriver() {
-        getDriver().quit();
-    }
-
-    public WebDriver getDriver() {
-        return driver;
+    public void closeDriver() {
+        driver.quit();
     }
 
     public void deleteByUser() throws InterruptedException {
