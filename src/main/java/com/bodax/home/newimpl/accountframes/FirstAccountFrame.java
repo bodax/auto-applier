@@ -8,21 +8,19 @@ import com.bodax.home.newimpl.Property;
 public class FirstAccountFrame implements AccountFrame {
 
     private final MainController controller;
-    private final Property properties;
 
     public FirstAccountFrame(MainController controller) {
         this.controller = controller;
-        this.properties = new Property();
     }
 
     @Override
     public String getLogin() {
-        return properties.getLogin1();
+        return Property.getLogin1();
     }
 
     @Override
     public String getPassword() {
-        return properties.getPass1();
+        return Property.getPass1();
     }
 
     @Override

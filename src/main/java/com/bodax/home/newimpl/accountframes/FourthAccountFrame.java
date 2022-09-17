@@ -7,21 +7,19 @@ import com.bodax.home.newimpl.Property;
 
 public class FourthAccountFrame implements AccountFrame {
     private final MainController controller;
-    private final Property properties;
 
     public FourthAccountFrame(MainController controller) {
         this.controller = controller;
-        this.properties = new Property();
     }
 
     @Override
     public String getLogin() {
-        return properties.getLogin4();
+        return Property.getLogin4();
     }
 
     @Override
     public String getPassword() {
-        return properties.getPass4();
+        return Property.getPass4();
     }
 
     @Override

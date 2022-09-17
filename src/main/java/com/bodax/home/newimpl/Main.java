@@ -1,6 +1,5 @@
 package com.bodax.home.newimpl;
 
-import com.aquafx_project.AquaFx;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -11,10 +10,9 @@ import javafx.stage.Stage;
 public class Main extends Application {
 
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        AquaFx.style();
-        Parent root = FXMLLoader.load(getClass().getResource("/MainFrame.fxml"));
-        primaryStage.setTitle("AutoHelp 3.0");
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getClassLoader().getResource("MainFrame.fxml"));
+        primaryStage.setTitle("AutoHelp 3.1");
         primaryStage.setScene(new Scene(root, 1037, 409));
         primaryStage.setResizable(false);
         primaryStage.show();

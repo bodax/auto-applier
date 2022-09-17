@@ -19,87 +19,94 @@ import java.io.File;
  */
 public class AccountThread implements Runnable {
 
-    private WebDriver driver;
-    private Applier applier;
-    private boolean isActive = false;
-    private ChromeOptions options;
-    private static Logger log = LoggerFactory.getLogger(AccountThread.class);
-    private AccountFrame accountFrame;
-    private final Property properties;
+    private final WebDriver driver;
+    private final Applier applier;
+    private static final Logger log = LoggerFactory.getLogger(AccountThread.class);
+    private final AccountFrame accountFrame;
 
     public AccountThread(AccountFrame accountFrame) {
         this.accountFrame = accountFrame;
-        this.properties = new Property();
-        System.setProperty("webdriver.chrome.driver", properties.getPathToDriver());
-        options = new ChromeOptions();
-        options.setBinary(new File(properties.getChromePath()));
-        options.addArguments("--window-size=1366,768", "--headless", "--disable-gpu", "--ignore-certificate-errors");
+        System.setProperty("webdriver.chrome.driver", Property.getPathToDriver());
+        ChromeOptions options = new ChromeOptions();
+         options.setBinary(new File(Property.getChromePath()));
+        options.addArguments("--window-size=1366,768", /*"--headless", "--disable-gpu"*/ "--ignore-certificate-errors");
+        driver = new ChromeDriver(options);
+        log.info("OK - Chrome driver loaded correctly");
+        applier = new Applier(driver);
     }
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
-            try {
-                driver = new ChromeDriver(options);
-                log.info("OK - Chrome driver loaded correctly");
-                applier = new Applier(driver);
-                Thread.sleep(2000);
-                applier.loadPage();
-                Thread.sleep(2000);
-                applier.clickEnterToAccount();
-                Thread.sleep(2000);
-                applier.setCredentials(accountFrame.getLogin(), accountFrame.getPassword());
-                Thread.sleep(5000);
-                while (!Thread.currentThread().isInterrupted()) {
-                    applier.addPropose();
-                    Thread.sleep(2000);
-                    applier.setSaleOrBuy(accountFrame.getWant());
-                    applier.setValue(accountFrame.getValue());
-                    applier.setCurrency(accountFrame.getCurrency());
-                    applier.setRate(String.valueOf(accountFrame.getRate()));
-                    applier.setCity();
-                    applier.setDistrict(accountFrame.getDistrict());
-                    applier.setComment(accountFrame.getComboBoxComment());
-                    applier.setActualTime();
-                    applier.savePropose();
-                    isActive = true;
+        try {
+            Platform.runLater(() -> accountFrame.getStatusLabel().setText("Запуск..."));
+            Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ffa500")));
+            applier.loadPage();
+            Thread.sleep(2000);
+            applier.clickEnterToAccount();
+            Thread.sleep(2000);
+            applier.setCredentials(accountFrame.getLogin(), accountFrame.getPassword());
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            log.error("The program was crashed by exception: {} ", e.getMessage(), e);
+            Thread.currentThread().interrupt();
+            closeDriver();
+        }
 
-                    Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#00ff14")));
-                    Platform.runLater(() -> accountFrame.getStatusLabel().setText("Активно"));
-                    Thread.sleep(50000);
-                    applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
-                    isActive = false;
-                    Thread.sleep(2000);
-                    Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff8900")));
-                    Platform.runLater(() -> accountFrame.getStatusLabel().setText("Удалено"));
-                    Thread.sleep(2000);
-                }
-            } catch (InterruptedException e) {
-                log.error("Error during execution {}", e.getMessage());
-                Thread.currentThread().interrupt();
-            } finally {
-                log.error("Web Driver finished in finally section");
-                Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff0000")));
-                Platform.runLater(() -> accountFrame.getStatusLabel().setText("Остановлено"));
-                driver.quit();
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
+                applier.addPropose();
+                Thread.sleep(2000);
+                applier.setSaleOrBuy(accountFrame.getWant());
+                applier.setValue(accountFrame.getValue());
+                applier.setCurrency(accountFrame.getCurrency());
+                applier.setRate(String.valueOf(accountFrame.getRate()));
+                applier.setCity();
+                applier.setDistrict(accountFrame.getDistrict());
+                applier.setComment(accountFrame.getComboBoxComment());
+                applier.setActualTime();
+                applier.savePropose();
+                Thread.sleep(1000);
+                Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#00ff14")));
+                Platform.runLater(() -> accountFrame.getStatusLabel().setText("Активно"));
+                Thread.sleep(50000);
+                applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
+                Thread.sleep(2000);
+                Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff8900")));
+                Platform.runLater(() -> accountFrame.getStatusLabel().setText("Видалено"));
             }
+        } catch (InterruptedException e) {
+            log.error("Error during execution {}", e.getMessage(), e);
+        } finally {
+            log.error("Web Driver finished in finally section");
+            Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff0000")));
+            Platform.runLater(() -> accountFrame.getStatusLabel().setText("Зупинено"));
+            Thread.currentThread().interrupt();
+            closeDriver();
         }
     }
 
+    public void deleteAndClose() {
+        try {
+            deleteByUser();
+        } catch (InterruptedException e) {
+            log.error("Cant delete item: {}", e.getMessage(), e);
+            Thread.currentThread().interrupt();
+        }
+        closeDriver();
+    }
+
+    //TODO: make private
     public void closeDriver() {
+        driver.close();
         driver.quit();
     }
 
+    //TODO: make private
     public void deleteByUser() throws InterruptedException {
-        applier.loadPage();
-        Thread.sleep(1000);
-        if (isActive) {
+            applier.loadPage();
             applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
             Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff0000")));
-            Platform.runLater(() -> accountFrame.getStatusLabel().setText("Удалено"));
+            Platform.runLater(() -> accountFrame.getStatusLabel().setText("Видалено"));
             Thread.sleep(500);
-        }
     }
 }
-
-

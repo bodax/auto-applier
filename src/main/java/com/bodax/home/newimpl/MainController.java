@@ -1,5 +1,6 @@
 package com.bodax.home.newimpl;
 
+import com.bodax.home.newimpl.accountframes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -7,13 +8,16 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class MainController {
 
     private static final String SALE = "продать";
     private static final String BUY = "купить";
     private static final String USD = "USD";
     private static final String EUR = "EUR";
-    private static final String RUB = "RUB";
+    private static final String PLN = "PLN";
 
     @FXML
     Label labelLogin1;
@@ -96,16 +100,13 @@ public class MainController {
     @FXML
     public ComboBox<String> comboBoxComment5;
 
-    Property property = new Property();
-
     @FXML
     private void initialize() {
         comboBoxSaleOrBuy1.setItems(getSaleOrBuyList());
         comboBoxSaleOrBuy1.setValue(SALE);
-
         comboBoxCurrency1.setItems(getCurrencyList());
         comboBoxCurrency1.setValue(USD);
-        setLabelLogin1(labelLogin1);
+        labelLogin1.setText(Property.getLogin1());
 
         comboBoxComment1.setItems(getComment());
         comboBoxComment2.setItems(getComment());
@@ -117,25 +118,25 @@ public class MainController {
         comboBoxSaleOrBuy2.setValue(SALE);
         comboBoxCurrency2.setItems(getCurrencyList());
         comboBoxCurrency2.setValue(USD);
-        setLabelLogin2(labelLogin2);
+        labelLogin2.setText(Property.getLogin2());
 
         comboBoxSaleOrBuy3.setItems(getSaleOrBuyList());
         comboBoxSaleOrBuy3.setValue(SALE);
         comboBoxCurrency3.setItems(getCurrencyList());
         comboBoxCurrency3.setValue(USD);
-        setLabelLogin3(labelLogin3);
+        labelLogin3.setText(Property.getLogin3());
 
         comboBoxSaleOrBuy4.setItems(getSaleOrBuyList());
         comboBoxSaleOrBuy4.setValue(SALE);
         comboBoxCurrency4.setItems(getCurrencyList());
         comboBoxCurrency4.setValue(USD);
-        setLabelLogin4(labelLogin4);
+        labelLogin4.setText(Property.getLogin4());
 
         comboBoxSaleOrBuy5.setItems(getSaleOrBuyList());
         comboBoxSaleOrBuy5.setValue(SALE);
         comboBoxCurrency5.setItems(getCurrencyList());
         comboBoxCurrency5.setValue(USD);
-        setLabelLogin5(labelLogin5);
+        labelLogin5.setText(Property.getLogin5());
     }
 
     private ObservableList<String> getSaleOrBuyList() {
@@ -143,20 +144,15 @@ public class MainController {
     }
 
     private ObservableList<String> getCurrencyList() {
-        return FXCollections.observableArrayList(USD, EUR, RUB);
+        return FXCollections.observableArrayList(USD, EUR, PLN);
     }
 
     private ObservableList<String> getComment() {
-        return FXCollections.observableArrayList(property.getComment1(),
-                property.getComment2(),
-                property.getComment3(),
-                property.getComment4(),
-                property.getComment5());
-    }
-
-    public void setLabelLogin1(final Label labelLogin1) {
-        this.labelLogin1 = labelLogin1;
-        labelLogin1.setText(property.getLogin1());
+        return FXCollections.observableArrayList(Property.getComment1(),
+                Property.getComment2(),
+                Property.getComment3(),
+                Property.getComment4(),
+                Property.getComment5());
     }
 
     public Label getStatusLabel1() {
@@ -187,37 +183,34 @@ public class MainController {
         return Float.parseFloat(rateField1.getText());
     }
 
-    AccountFrameFactory factory = new AccountFrameFactory(this);
+
+    private ExecutorService es1;
     private AccountThread tr1;
 
     public void login1StartBtnClick() {
-        tr1 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FIRST));
-        Thread thread = new Thread(tr1, FrameNumber.FIRST.name());
-        thread.start();
+        es1 = Executors.newSingleThreadExecutor();
+        tr1 = new AccountThread(new FirstAccountFrame(this));
+        es1.execute(tr1);
     }
 
-    public void login1StopBtnClick() throws InterruptedException {
-        tr1.deleteByUser();
-        tr1.closeDriver();
+    public void login1StopBtnClick() {
+        tr1.deleteAndClose();
+        es1.shutdown();
     }
 
     // Thread 2
+    private ExecutorService es2;
     private AccountThread tr2;
 
     public void login2StartBtnClick() {
-        tr2 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.SECOND));
-        Thread thread = new Thread(tr2, FrameNumber.SECOND.name());
-        thread.start();
+        es2 = Executors.newSingleThreadExecutor();
+        tr2 = new AccountThread(new SecondAccountFrame(this));
+        es2.execute(tr2);
     }
 
-    public void login2StopBtnClick() throws InterruptedException {
-        tr2.deleteByUser();
-        tr2.closeDriver();
-    }
-
-    public void setLabelLogin2(final Label labelLogin2) {
-        this.labelLogin2 = labelLogin2;
-        labelLogin2.setText(property.getLogin2());
+    public void login2StopBtnClick() {
+        tr2.deleteAndClose();
+        es2.shutdown();
     }
 
     public Label getStatusLabel2() {
@@ -253,11 +246,6 @@ public class MainController {
         return comboBoxSaleOrBuy3.getSelectionModel().getSelectedItem();
     }
 
-    public void setLabelLogin3(final Label labelLogin3) {
-        this.labelLogin3 = labelLogin3;
-        labelLogin3.setText(property.getLogin3());
-    }
-
     public ComboBox<String> getComboBoxComment3() {
         return comboBoxComment3;
     }
@@ -283,27 +271,23 @@ public class MainController {
     }
 
 
+    private ExecutorService es3;
     private AccountThread tr3;
 
     public void login3StartBtnClick() {
-        tr3 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.THIRD));
-        Thread thread = new Thread(tr3, FrameNumber.THIRD.name());
-        thread.start();
+        es3 = Executors.newSingleThreadExecutor();
+        tr3 = new AccountThread(new ThirdAccountFrame(this));
+        es3.execute(tr3);
     }
 
-    public void login3StopBtnClick() throws InterruptedException {
-        tr3.deleteByUser();
-        tr3.closeDriver();
+    public void login3StopBtnClick() {
+        tr3.deleteAndClose();
+        es3.shutdown();
     }
 
     //Thread 4
     public String getWant4() {
         return comboBoxSaleOrBuy4.getSelectionModel().getSelectedItem();
-    }
-
-    public void setLabelLogin4(final Label labelLogin4) {
-        this.labelLogin4 = labelLogin4;
-        labelLogin4.setText(property.getLogin4());
     }
 
     public Label getStatusLabel4() {
@@ -331,27 +315,23 @@ public class MainController {
     }
 
 
+    private ExecutorService es4;
     private AccountThread tr4;
 
     public void login4StartBtnClick() {
-        tr4 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FOURTH));
-        Thread thread = new Thread(tr4, FrameNumber.FOURTH.name());
-        thread.start();
+        es4 = Executors.newSingleThreadExecutor();
+        tr4 = new AccountThread(new FourthAccountFrame(this));
+        es4.execute(tr4);
     }
 
-    public void login4StopBtnClick() throws InterruptedException {
-        tr4.deleteByUser();
-        tr4.closeDriver();
+    public void login4StopBtnClick()  {
+        tr4.deleteAndClose();
+        es4.shutdown();
     }
 
     //Thread 5
     public String getWant5() {
         return comboBoxSaleOrBuy5.getSelectionModel().getSelectedItem();
-    }
-
-    public void setLabelLogin5(final Label labelLogin5) {
-        this.labelLogin5 = labelLogin5;
-        labelLogin5.setText(property.getLogin5());
     }
 
     public Label getStatusLabel5() {
@@ -378,16 +358,17 @@ public class MainController {
         return Float.parseFloat(rateField5.getText());
     }
 
+    private ExecutorService es5;
     private AccountThread tr5;
 
     public void login5StartBtnClick() {
-        tr5 = new AccountThread(factory.getAccountFrameByFrameNumber(FrameNumber.FIFTH));
-        Thread thread = new Thread(tr5, FrameNumber.FIFTH.name());
-        thread.start();
+        es5 = Executors.newSingleThreadExecutor();
+        tr5 = new AccountThread(new FifthAccountFrame(this));
+        es5.execute(tr5);
     }
 
-    public void login5StopBtnClick() throws InterruptedException {
-        tr5.deleteByUser();
-        tr5.closeDriver();
+    public void login5StopBtnClick() {
+        tr5.deleteAndClose();
+        es5.shutdown();
     }
 }

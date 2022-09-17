@@ -6,22 +6,21 @@ import com.bodax.home.newimpl.MainController;
 import com.bodax.home.newimpl.Property;
 
 public class ThirdAccountFrame implements AccountFrame {
+
     private final MainController controller;
-    private final Property properties;
 
     public ThirdAccountFrame(MainController controller) {
         this.controller = controller;
-        this.properties = new Property();
     }
 
     @Override
     public String getLogin() {
-        return properties.getLogin3();
+        return Property.getLogin3();
     }
 
     @Override
     public String getPassword() {
-        return properties.getPass3();
+        return Property.getPass3();
     }
 
     @Override

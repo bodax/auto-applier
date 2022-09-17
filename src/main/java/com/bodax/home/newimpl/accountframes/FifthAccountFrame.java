@@ -7,21 +7,20 @@ import com.bodax.home.newimpl.Property;
 
 public class FifthAccountFrame implements AccountFrame {
     private final MainController controller;
-    private final Property properties;
+
 
     public FifthAccountFrame(MainController controller) {
         this.controller = controller;
-        this.properties = new Property();
     }
 
     @Override
     public String getLogin() {
-        return properties.getLogin5();
+        return Property.getLogin5();
     }
 
     @Override
     public String getPassword() {
-        return properties.getPass5();
+        return Property.getPass5();
     }
 
     @Override

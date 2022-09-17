@@ -7,21 +7,19 @@ import com.bodax.home.newimpl.Property;
 
 public class SecondAccountFrame implements AccountFrame {
     private final MainController controller;
-    private final Property properties;
 
     public SecondAccountFrame (MainController controller) {
         this.controller = controller;
-        this.properties = new Property();
     }
 
     @Override
     public String getLogin() {
-        return properties.getLogin2();
+        return Property.getLogin2();
     }
 
     @Override
     public String getPassword() {
-        return properties.getPass2();
+        return Property.getPass2();
     }
 
     @Override
