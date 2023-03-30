@@ -1,9 +1,9 @@
-package com.bodax.home.newimpl.accountframes;
+package com.bodax.home.newimpl.view.accountframes;
 
-import com.bodax.home.newimpl.AccountFrame;
+import com.bodax.home.newimpl.view.AccountFrame;
 import javafx.scene.control.Label;
-import com.bodax.home.newimpl.MainController;
-import com.bodax.home.newimpl.Property;
+import com.bodax.home.newimpl.controller.MainController;
+import com.bodax.home.newimpl.util.Property;
 
 public class FifthAccountFrame implements AccountFrame {
     private final MainController controller;

@@ -1,6 +1,8 @@
-package com.bodax.home.newimpl;
+package com.bodax.home.newimpl.controller;
 
-import com.bodax.home.newimpl.accountframes.*;
+import com.bodax.home.newimpl.view.AccountThread;
+import com.bodax.home.newimpl.util.Property;
+import com.bodax.home.newimpl.view.accountframes.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -371,4 +373,55 @@ public class MainController {
         tr5.deleteAndClose();
         es5.shutdown();
     }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

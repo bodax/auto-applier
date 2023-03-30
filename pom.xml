@@ -45,53 +45,7 @@
     </dependencies>
     <build>
         <plugins>
-         <!--   <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
-                <configuration>
-                   <release>11</release>
-                </configuration>
-            </plugin>-->
-            <!--<plugin>
-                &lt;!&ndash; Build an executable JAR &ndash;&gt;
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>com.bodax.home.newimpl.Main</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>-->
-
-       <!--     <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <mainClass>
-                                com.bodax.home.newimpl.Main
-                            </mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>-->
-
-  <!--          <plugin>
-                <groupId>org.openjfx</groupId>
-                <artifactId>javafx-maven-plugin</artifactId>
-                <version>0.0.8</version>
-                <configuration>
-                    <mainClass>com.bodax.home.newimpl.Main</mainClass>
-                </configuration>
-            </plugin>-->
-
-            <plugin>
+           <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>3.0.0</version>
@@ -113,6 +67,5 @@
                 </executions>
             </plugin>
         </plugins>
-
     </build>
 </project>

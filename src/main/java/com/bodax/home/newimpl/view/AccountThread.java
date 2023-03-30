@@ -1,5 +1,7 @@
-package com.bodax.home.newimpl;
+package com.bodax.home.newimpl.view;
 
+import com.bodax.home.newimpl.executor.Applier;
+import com.bodax.home.newimpl.util.Property;
 import javafx.application.Platform;
 import javafx.scene.paint.Color;
 import org.openqa.selenium.WebDriver;
@@ -11,7 +13,7 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 
 /**
- * Class
+ * Class that represents thread of execution
  *
  * @author Bohdan Okun (markpolo525@gmail.com)
  * @version $Id$
@@ -23,13 +25,14 @@ public class AccountThread implements Runnable {
     private final Applier applier;
     private static final Logger log = LoggerFactory.getLogger(AccountThread.class);
     private final AccountFrame accountFrame;
+    private boolean isApplicationActive;
 
     public AccountThread(AccountFrame accountFrame) {
         this.accountFrame = accountFrame;
         System.setProperty("webdriver.chrome.driver", Property.getPathToDriver());
         ChromeOptions options = new ChromeOptions();
-         options.setBinary(new File(Property.getChromePath()));
-        options.addArguments("--window-size=1366,768", /*"--headless", "--disable-gpu"*/ "--ignore-certificate-errors");
+        options.setBinary(new File(Property.getChromePath()));
+        options.addArguments("--window-size=1366,768", "--headless", "--disable-gpu", "--ignore-certificate-errors");
         driver = new ChromeDriver(options);
         log.info("OK - Chrome driver loaded correctly");
         applier = new Applier(driver);
@@ -65,11 +68,13 @@ public class AccountThread implements Runnable {
                 applier.setComment(accountFrame.getComboBoxComment());
                 applier.setActualTime();
                 applier.savePropose();
+                isApplicationActive = true;
                 Thread.sleep(1000);
                 Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#00ff14")));
                 Platform.runLater(() -> accountFrame.getStatusLabel().setText("Активно"));
                 Thread.sleep(50000);
                 applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
+                isApplicationActive = false;
                 Thread.sleep(2000);
                 Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff8900")));
                 Platform.runLater(() -> accountFrame.getStatusLabel().setText("Видалено"));
@@ -87,26 +92,28 @@ public class AccountThread implements Runnable {
 
     public void deleteAndClose() {
         try {
+            if (!isApplicationActive) {
+                closeDriver();
+            }
             deleteByUser();
+            closeDriver();
         } catch (InterruptedException e) {
             log.error("Cant delete item: {}", e.getMessage(), e);
             Thread.currentThread().interrupt();
         }
-        closeDriver();
+
     }
 
-    //TODO: make private
-    public void closeDriver() {
+    private void deleteByUser() throws InterruptedException {
+        applier.loadPage();
+        applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
+        Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff0000")));
+        Platform.runLater(() -> accountFrame.getStatusLabel().setText("Видалено"));
+        Thread.sleep(500);
+    }
+
+    private void closeDriver() {
         driver.close();
         driver.quit();
-    }
-
-    //TODO: make private
-    public void deleteByUser() throws InterruptedException {
-            applier.loadPage();
-            applier.deleteItemTest(String.valueOf(accountFrame.getRate()));
-            Platform.runLater(() -> accountFrame.getStatusLabel().setTextFill(Color.web("#ff0000")));
-            Platform.runLater(() -> accountFrame.getStatusLabel().setText("Видалено"));
-            Thread.sleep(500);
     }
 }

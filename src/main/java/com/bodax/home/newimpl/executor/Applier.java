@@ -1,4 +1,4 @@
-package com.bodax.home.newimpl;
+package com.bodax.home.newimpl.executor;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

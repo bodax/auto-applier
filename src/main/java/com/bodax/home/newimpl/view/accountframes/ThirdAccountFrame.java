@@ -1,56 +1,56 @@
-package com.bodax.home.newimpl.accountframes;
+package com.bodax.home.newimpl.view.accountframes;
 
-import com.bodax.home.newimpl.AccountFrame;
+import com.bodax.home.newimpl.view.AccountFrame;
 import javafx.scene.control.Label;
-import com.bodax.home.newimpl.MainController;
-import com.bodax.home.newimpl.Property;
+import com.bodax.home.newimpl.controller.MainController;
+import com.bodax.home.newimpl.util.Property;
 
-public class FirstAccountFrame implements AccountFrame {
+public class ThirdAccountFrame implements AccountFrame {
 
     private final MainController controller;
 
-    public FirstAccountFrame(MainController controller) {
+    public ThirdAccountFrame(MainController controller) {
         this.controller = controller;
     }
 
     @Override
     public String getLogin() {
-        return Property.getLogin1();
+        return Property.getLogin3();
     }
 
     @Override
     public String getPassword() {
-        return Property.getPass1();
+        return Property.getPass3();
     }
 
     @Override
     public String getComboBoxComment() {
-        return controller.getComboBoxComment1().getValue();
+        return controller.getComboBoxComment3().getValue();
     }
 
     @Override
     public String getDistrict() {
-        return controller.getDistrict1();
+        return controller.getDistrict3();
     }
 
     @Override
     public float getRate() {
-        return controller.getRate1();
+        return controller.getRate3();
     }
 
     @Override
     public String getCurrency() {
-        return controller.getCurrency1();
+        return controller.getCurrency3();
     }
 
     @Override
     public String getValue() {
-        return controller.getValue1();
+        return controller.getValue3();
     }
 
     @Override
     public String getWant() {
-        return controller.getWant1();
+        return controller.getWant3();
     }
 
     @Override
@@ -60,6 +60,6 @@ public class FirstAccountFrame implements AccountFrame {
 
     @Override
     public Label getStatusLabel() {
-        return controller.getStatusLabel1();
+        return controller.getStatusLabel3();
     }
 }

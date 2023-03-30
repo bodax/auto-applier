@@ -1,5 +1,6 @@
-package com.bodax.home.newimpl;
+package com.bodax.home.newimpl.view;
 
+import com.bodax.home.newimpl.controller.MainController;
 import javafx.scene.control.Label;
 
 public interface AccountFrame {

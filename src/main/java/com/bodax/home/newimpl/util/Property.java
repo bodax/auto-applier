@@ -1,4 +1,4 @@
-package com.bodax.home.newimpl;
+package com.bodax.home.newimpl.util;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -20,8 +20,8 @@ public class Property {
     }
 
     private static Properties properties;
-    private static final String resourceFilePath = "src/main/resources/config.properties";
-    //private static final String resourceFilePath = "config.properties";
+   // private static final String resourceFilePath = "src/main/resources/config.properties";
+    private static final String resourceFilePath = "config.properties";
 
     static {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(
@@ -37,9 +37,7 @@ public class Property {
         return properties.getProperty("driver");
     }
 
-    public static String getChromePath() {
-        return properties.getProperty("chrome");
-    }
+    public static String getChromePath() {return properties.getProperty("chrome");}
 
     public static String getLogin1() {
         return properties.getProperty("login1");
